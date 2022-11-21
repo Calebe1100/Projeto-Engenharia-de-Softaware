@@ -22,5 +22,5 @@ app.use(routes);
 var port = 3000;
 
 app.listen(port, () => {
-    console.log("Servidor iniciado na porta 3000");
+    console.log(`Servidor iniciado na porta ${port}`);
 });

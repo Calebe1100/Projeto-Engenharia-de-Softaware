@@ -61,7 +61,7 @@ async function store(req, res) {
   const { name, email, password, registration, birth_date, period, idCourse } = req.body;
 
   let disciplines = await DisciplineRepository.findAll({ where: { idCourse: idCourse } });
-  
+
   const data = { name, email, password, registration, birth_date, period };
 
   //data.password = await bcrypt.hash(data.password, 8); //TODO Esta dando erro na criptação
@@ -69,11 +69,11 @@ async function store(req, res) {
   let dataRelation;
 
   const user = await UserRepository.create(data).then(async (resp) => {
-    await Promise.all(disciplines.forEach( async discipline => {
-      dataRelation = { idCourse, idUser: resp.id, idDiscipline: discipline.id, status: 3, init_date: moment() };
+    await Promise.all(disciplines.forEach(async discipline => {
+      dataRelation = { idCourse, idUser: resp.id, idDiscipline: discipline.id, status: 3 };
 
-      await UserCourseDisciplineRepository.create(dataRelation).then(() => {
-
+      await UserCourseDisciplineRepository.create(dataRelation).then(data => {
+        console.log(data)
       }).catch(err => {
         res.status(400).json({
           error: err
